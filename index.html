@@ -1364,7 +1364,7 @@
 // ══════════════════════════════════════
 const CONFIG = {
   VIDEO_DURATION_SECONDS: 300,   // Duración de tu video en segundos (5 min = 300)
-  AIRTABLE_API_KEY: 'path7FNUmhvGF4wFn.b5d6addb93849c4513729840b46c6a9ae180a6ccd15f73bc4096d66d21117034',         // ← REEMPLAZA
+  AIRTABLE_API_KEY: 'patc7OQvn88xqziSU.34f080c7569ea96bad96559ebdf1c08db5f337b53a841e348248aefef1763fd4',         // ← REEMPLAZA
   AIRTABLE_BASE_ID: 'appKYA5FzB4ahfSaQ',         // ← REEMPLAZA
   AIRTABLE_TABLE_NAME: 'Leads RF',                  // Nombre de tu tabla
   CALENDLY_URL: 'https://calendly.com/TU_USUARIO/entrevista', // ← REEMPLAZA
@@ -1648,7 +1648,7 @@ async function saveToAirtable(data) {
       'Video Progreso %':   data.video_progreso,
       'Lead Score':         data.lead_score,
       'Lead Tier':          data.lead_tier,
-      'Fecha Aplicación':   data.fecha,
+      'Fecha Aplicación':   data.fecha.split('T')[0],
     };
 
     const res = await fetch(`https://api.airtable.com/v0/${CONFIG.AIRTABLE_BASE_ID}/${encodeURIComponent(CONFIG.AIRTABLE_TABLE_NAME)}`, {
@@ -1658,6 +1658,8 @@ async function saveToAirtable(data) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ fields }),
+      // Debug
+      console.log('Sending to Airtable:', JSON.stringify({ fields }));
     });
 
     if (!res.ok) {
