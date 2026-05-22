@@ -1365,7 +1365,7 @@
 // ══════════════════════════════════════
 const CONFIG = {
   VIDEO_DURATION_SECONDS: 300,   // Duración de tu video en segundos (5 min = 300)
-  AIRTABLE_API_KEY: 'patc7OQvn88xqziSU.34f080c7569ea96bad96559ebdf1c08db5f337b53a841e348248aefef1763fd4',         // ← REEMPLAZA
+  AIRTABLE_API_KEY: 'patmeQlimMgSaEd9y.1cf21285b538929ff8009975db41c1723cf5167c700775cc298c47ccbc88d53c',         // ← REEMPLAZA
   AIRTABLE_BASE_ID: 'appKYA5FzB4ahfSaQ',         // ← REEMPLAZA
   AIRTABLE_TABLE_NAME: 'Leads RF',                  // Nombre de tu tabla
   CALENDLY_URL: 'https://calendly.com/TU_USUARIO/entrevista', // ← REEMPLAZA
@@ -1617,6 +1617,27 @@ async function submitForm() {
 
   // Save to Airtable
   await saveToAirtable(data);
+
+  // Save to Formspree
+  fetch('https://formspree.io/f/mwvzojej', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      Nombre: data.nombre + ' ' + data.apellido,
+      Telefono: data.telefono,
+      Instagram: data.instagram,
+      Ciudad: data.ciudad,
+      Edad: data.edad,
+      Ingreso: data.ingreso,
+      Trabajo: data.trabajo,
+      Objetivo: data.objetivo,
+      Experiencia: data.experiencia,
+      Horas: data.horas,
+      Seriedad: data.seriedad,
+      Lead_Tier: data.lead_tier,
+      Lead_Score: data.lead_score,
+    })
+  }).catch(e => console.log(e));
 
   // Fire pixels
   trackConversion(data);
